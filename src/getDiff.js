@@ -1,8 +1,18 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { cwd } from 'node:process';
-import parse from './parsers.js';
 import _ from 'lodash';
+
+import parse from './parsers.js';
+import render from './render.js';
+
+const types = {
+  new: 'new',
+  same: 'same',
+  changed: 'changed',
+  deleted: 'deleted',
+  object: 'object',
+};
 
 const getData = (filepath) => {
   const pathToFile = path.resolve(cwd(), 'src', filepath);
@@ -12,27 +22,43 @@ const getData = (filepath) => {
   return parse(data, extension);
 };
 
-export default function (filepath1, filepath2) {
-  const data1 = getData(filepath1);
-  const data2 = getData(filepath2);
+const createTree = (data1, data2) => {
+  const keys = _.sortBy(_.union(_.keys(data1), _.keys(data2)));
 
-  const keys = _.sortBy(_.union(Object.keys(data1), Object.keys(data2)));
+  return keys.map((key) => {
+    const value1 = data1[key];
+    const value2 = data2[key];
 
-  const strings = keys.map((key) => {
-    if (!Object.hasOwn(data1, key)) {
-      return `+ ${key}: ${data2[key]}`;
+    if (value1 === value2) {
+      return { key, value: value2, type: types.same };
     }
 
-    if (!Object.hasOwn(data2, key)) {
-      return `- ${key}: ${data1[key]}`;
+    if (!_.has(data1, key)) {
+      return { key, value: value2, type: types.new };
     }
 
-    if (data1[key] === data2[key]) {
-      return `  ${key}: ${data1[key]}`;
-    } else {
-      return `- ${key} ${data1[key]}\n+ ${key} ${data2[key]}`;
+    if (!_.has(data2, key)) {
+      return { key, value: value1, type: types.deleted };
     }
+
+    if (_.isObject(value1) && _.isObject(value2)) {
+      const children = createTree(value1, value2);
+      return { key, type: types.object, children };
+    }
+
+    return {
+      key,
+      value: value2,
+      changed: value1,
+      type: types.changed,
+    };
   });
+};
 
-  console.log(strings.join('\n'));
-}
+export default (firstFilePath, secondFilePath) => {
+  const data1 = getData(firstFilePath);
+  const data2 = getData(secondFilePath);
+  const tree = createTree(data1, data2);
+
+  return render(tree);
+};
