@@ -1,11 +1,15 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { cwd } from 'node:process';
+import parse from './parsers.js';
 import _ from 'lodash';
 
 const getData = (filepath) => {
-  const pathToFile = path.resolve(cwd(), filepath);
-  return JSON.parse(fs.readFileSync(pathToFile));
+  const pathToFile = path.resolve(cwd(), 'src', filepath);
+  const extension = path.extname(filepath).slice(1);
+  const data = fs.readFileSync(pathToFile);
+
+  return parse(data, extension);
 };
 
 export default function (filepath1, filepath2) {
