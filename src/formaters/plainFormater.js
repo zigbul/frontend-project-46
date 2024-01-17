@@ -1,7 +1,8 @@
 const stringify = (value) => {
   if (value instanceof Object) {
     return '[complex value]';
-  } else if (typeof value === 'boolean') {
+  }
+  if (typeof value === 'boolean') {
     return `${value}`;
   }
   return `'${value}'`;
@@ -16,6 +17,7 @@ const render = (tree) => {
       same: (obj) => `${makeBegining(obj)} was the same`,
       new: (obj) => `${makeBegining(obj)} was added with value: ${stringify(obj.value)}`,
       changed: (obj) =>
+        // eslint-disable-next-line implicit-arrow-linebreak
         `${makeBegining(obj)} was updated. From ${stringify(obj.changed)} to ${stringify(
           obj.value,
         )}`,
