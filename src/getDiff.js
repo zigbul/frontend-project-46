@@ -4,7 +4,7 @@ import { cwd } from 'node:process';
 import _ from 'lodash';
 
 import parse from './parsers.js';
-import render from './render.js';
+import render from './formaters/index.js';
 
 const types = {
   new: 'new',
@@ -55,10 +55,10 @@ const createTree = (data1, data2) => {
   });
 };
 
-export default (firstFilePath, secondFilePath) => {
+export default (firstFilePath, secondFilePath, format) => {
   const data1 = getData(firstFilePath);
   const data2 = getData(secondFilePath);
   const tree = createTree(data1, data2);
 
-  return render(tree);
+  return render(tree, format);
 };
