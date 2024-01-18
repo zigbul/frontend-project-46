@@ -15,7 +15,7 @@ const types = {
 };
 
 const getData = (filepath) => {
-  const pathToFile = path.resolve(cwd(), 'src', filepath);
+  const pathToFile = path.resolve(cwd(), filepath);
   const extension = path.extname(filepath).slice(1);
   const data = fs.readFileSync(pathToFile);
 
@@ -55,7 +55,7 @@ const createTree = (data1, data2) => {
   });
 };
 
-export default (firstFilePath, secondFilePath, format) => {
+export default (firstFilePath, secondFilePath, format = 'stylish') => {
   const data1 = getData(firstFilePath);
   const data2 = getData(secondFilePath);
   const tree = createTree(data1, data2);
