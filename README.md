@@ -17,9 +17,9 @@ Options:
 ```
 
 ## **Output format types:**
-stylish - represent output like github diff
-plain - represent readable output with characters
-json - represent standart JSON output format
+- stylish - represent output like github diff
+- plain - represent readable output with characters
+- json - represent standart JSON output format
 
 ## **Usage:**
 ----------------
