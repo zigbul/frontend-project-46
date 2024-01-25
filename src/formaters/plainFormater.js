@@ -10,7 +10,7 @@ const stringify = (value) => {
     return "''";
   }
 
-  return `${value}`;
+  return `'${value}'`;
 };
 
 const render = (tree) => {
@@ -20,7 +20,7 @@ const render = (tree) => {
 
     const makePropperString = {
       // same: (obj) => `${makeBegining(obj)} was the same`,
-      same: () => '',
+      same: () => {},
       new: (obj) => `${makeBegining(obj)} was added with value: ${stringify(obj.value)}`,
       changed: (obj) =>
         // eslint-disable-next-line implicit-arrow-linebreak
