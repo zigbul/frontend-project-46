@@ -14,7 +14,7 @@ const render = (tree) => {
     const makeBegining = (obj) => `Property '${makefullKey(obj).join('.')}'`;
 
     const makePropperString = {
-      // same: (obj) => `${makeBegining(obj)} was the same`,
+      same: (obj) => `${makeBegining(obj)} was the same`,
       new: (obj) => `${makeBegining(obj)} was added with value: ${stringify(obj.value)}`,
       changed: (obj) =>
         // eslint-disable-next-line implicit-arrow-linebreak
@@ -24,6 +24,7 @@ const render = (tree) => {
       deleted: (obj) => `${makeBegining(obj)} was removed`,
       object: (obj) => iter(obj.children, makefullKey(obj)),
     };
+
     return arr.reduce((acc, obj) => [...acc, makePropperString[obj.type](obj)], []).join('\n');
   };
 
