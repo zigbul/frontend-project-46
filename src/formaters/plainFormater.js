@@ -2,8 +2,13 @@ const stringify = (value) => {
   if (value instanceof Object) {
     return '[complex value]';
   }
-  if (typeof value === 'boolean') {
+
+  if (typeof value === 'boolean' || typeof value === 'number') {
     return `${value}`;
+  }
+
+  if (value === null) {
+    return null;
   }
 
   if (typeof value === 'string' && value.length === 0) {
@@ -19,8 +24,7 @@ const render = (tree) => {
     const makeBegining = (obj) => `Property '${makefullKey(obj).join('.')}'`;
 
     const makePropperString = {
-      // same: (obj) => `${makeBegining(obj)} was the same`,
-      same: () => {},
+      same: (obj) => `${makeBegining(obj)} was the same`,
       new: (obj) => `${makeBegining(obj)} was added with value: ${stringify(obj.value)}`,
       changed: (obj) =>
         // eslint-disable-next-line implicit-arrow-linebreak
