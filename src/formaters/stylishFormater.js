@@ -19,14 +19,14 @@ const render = (tree) => {
   const iter = (arr, depth) => {
     const propperString = {
       same: (obj) => `${getIndent(depth)}    ${obj.key}: ${stringify(obj.value, depth + 1)}`,
-      new: (obj) => `${getIndent(depth)} +  ${obj.key}: ${stringify(obj.value, depth + 1)}`,
+      new: (obj) => `${getIndent(depth)}  + ${obj.key}: ${stringify(obj.value, depth + 1)}`,
       changed: (obj) => [
-        `${getIndent(depth)} -  ${obj.key}: ${stringify(obj.changed, depth + 1)}`,
-        `${getIndent(depth)} +  ${obj.key}: ${stringify(obj.value, depth + 1)}`,
+        `${getIndent(depth)}  - ${obj.key}: ${stringify(obj.changed, depth + 1)}`,
+        `${getIndent(depth)}  + ${obj.key}: ${stringify(obj.value, depth + 1)}`,
       ],
-      deleted: (obj) => `${getIndent(depth)} -  ${obj.key}: ${stringify(obj.value, depth + 1)}`,
+      deleted: (obj) => `${getIndent(depth)}  - ${obj.key}: ${stringify(obj.value, depth + 1)}`,
       object: (obj) => [
-        `${getIndent(depth)}  ${obj.key}: {`,
+        `${getIndent(depth)}    ${obj.key}: {`,
         iter(obj.children, depth + 1),
         `${getIndent(depth)}  }`,
       ],
