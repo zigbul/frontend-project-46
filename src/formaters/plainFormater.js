@@ -24,7 +24,6 @@ const render = (tree) => {
     const makeBegining = (obj) => `Property '${makefullKey(obj).join('.')}'`;
 
     const makePropperString = {
-      // same: (obj) => `${makeBegining(obj)} was the same`,
       same: () => null,
       new: (obj) => `${makeBegining(obj)} was added with value: ${stringify(obj.value)}`,
       changed: (obj) =>
