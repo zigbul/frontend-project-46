@@ -5,6 +5,11 @@ const stringify = (value) => {
   if (typeof value === 'boolean') {
     return `${value}`;
   }
+
+  if (typeof value === 'string' && value.length === 0) {
+    return "''";
+  }
+
   return `${value}`;
 };
 
@@ -14,7 +19,8 @@ const render = (tree) => {
     const makeBegining = (obj) => `Property '${makefullKey(obj).join('.')}'`;
 
     const makePropperString = {
-      same: (obj) => `${makeBegining(obj)} was the same`,
+      // same: (obj) => `${makeBegining(obj)} was the same`,
+      same: () => '',
       new: (obj) => `${makeBegining(obj)} was added with value: ${stringify(obj.value)}`,
       changed: (obj) =>
         // eslint-disable-next-line implicit-arrow-linebreak
