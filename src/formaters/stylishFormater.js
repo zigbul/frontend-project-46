@@ -28,7 +28,7 @@ const render = (tree) => {
       object: (obj) => [
         `${getIndent(depth)}    ${obj.key}: {`,
         iter(obj.children, depth + 1),
-        `${getIndent(depth)}  }`,
+        `${getIndent(depth)}    }`,
       ],
     };
 
